@@ -10,7 +10,17 @@
 
         <StackPanel>
             <Button Command="{Binding StartServerCommand}" HorizontalAlignment="Left" >Start Server</Button>
-            
+            <ListView Background="Aqua" ItemsSource="{Binding AllClients,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                            <Grid>
+                            <TextBlock VerticalAlignment="Top" FontSize="22" HorizontalAlignment="Center" Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></TextBlock>
+                            <Image Source="{Binding ImagePath,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Height="200" ></Image>
+                            </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
         </StackPanel>
         
     </Grid>

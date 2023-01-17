@@ -13,8 +13,8 @@ namespace OurTeamViewer.NetworkHelper
 {
     public class Network
     {
-       public static string IP= "10.2.22.1";
-       public static int PORT = 27001;
+        public static string IP = "10.2.22.1";
+        public static int PORT = 27001;
         static TcpListener listener = null;
         static BinaryWriter bw = null;
         static BinaryReader br = null;
@@ -22,7 +22,7 @@ namespace OurTeamViewer.NetworkHelper
 
         public static void Connect()
         {
-            var ip=IPAddress.Parse(IP);
+            var ip = IPAddress.Parse(IP);
             Clients = new List<TcpClient>();
 
             var ep = new IPEndPoint(ip, PORT);
@@ -34,33 +34,40 @@ namespace OurTeamViewer.NetworkHelper
                 var client = listener.AcceptTcpClient();
                 Clients.Add(client);
 
-                //Task.Run(() =>
-                //{
-                //    var reader = Task.Run(() =>
-                //    {
-                //        foreach (var item in Clients)
-                //        {
-                //            Task.Run(() =>
-                //            {
-                //                var stream = item.GetStream();
-                //                br = new BinaryReader(stream);
-                //                try
-                //                {
-                //                    var bytes = br.ReadBytes(100000);
+                Task.Run(() =>
+                {
 
-                //                }
-                //                catch (Exception ex)
-                //                {
-                //                    Console.WriteLine($"{item.Client.RemoteEndPoint}  disconnected");
-                //                    Clients.Remove(item);
-                //                }
-                //            }).Wait(50);
-                //        }
-                //    });
-                //});
+                    var reader = Task.Run(() =>
+                    {
+                        foreach (var item in Clients)
+                        {
+                            Task.Run(() =>
+                            {
+                                var stream = item.GetStream();
+                                br = new BinaryReader(stream);
+                                while (true)
+                                {
+                                    try
+                                    {
+                                        var msg = br.ReadString();
+                                        //MessageBox.Show($"CLIENT : {client.Client.RemoteEndPoint} : {msg}");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine($"{item.Client.RemoteEndPoint}  disconnected");
+                                        Clients.Remove(item);
+                                    }
+                                }
+                            }).Wait(50);
+                        }
+
+
+
+                    });
+
+                });
             }
-
         }
-
     }
 }
+
