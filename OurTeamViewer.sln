@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OurTeamViewer", "OurTeamViewer\OurTeamViewer.csproj", "{B68D3C85-2F57-4965-BB9B-2BE862F01CC3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B68D3C85-2F57-4965-BB9B-2BE862F01CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68D3C85-2F57-4965-BB9B-2BE862F01CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68D3C85-2F57-4965-BB9B-2BE862F01CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68D3C85-2F57-4965-BB9B-2BE862F01CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C21E3A2F-2721-4B89-9BA6-08693CCF093F}
+	EndGlobalSection
+EndGlobal
