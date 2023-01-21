@@ -29,16 +29,18 @@ namespace OurTeamViewer.ViewModels
                 {
                     Network.Connect();
 
-                });
+                }).Wait(100);
                 Task.Run(async() =>
                 {
                     while (true)
                     {
-                       await Task.Delay(1000);
+                       await Task.Delay(500);
                        await Task.Run(() =>
                         {
                             App.Current.Dispatcher.Invoke(() =>
                             {
+                                try
+                                {
 
                                 AllClients = new ObservableCollection<Client>();
                                 foreach (var c in Network.Clients)
@@ -49,6 +51,11 @@ namespace OurTeamViewer.ViewModels
                                         Title = "Monitor " + c.Client.RemoteEndPoint.ToString(),
                                         ImagePath = ""
                                     });
+                                }
+                            }
+                                catch (Exception)
+                                {
+                                    AllClients.Clear();
                                 }
                             });
                         });
