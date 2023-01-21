@@ -1,8 +1,10 @@
 ﻿using OurTeamViewer.Commands;
+using OurTeamViewer.Helpers;
 using OurTeamViewer.NetworkHelper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,23 +36,46 @@ namespace OurTeamViewer.ViewModels
                 {
                     while (true)
                     {
-                       await Task.Delay(500);
-                       await Task.Run(() =>
-                        {
-                            App.Current.Dispatcher.Invoke(() =>
+                            await Task.Delay(2000);
+                            await App.Current.Dispatcher.BeginInvoke(() =>
                             {
                                 try
                                 {
 
                                 AllClients = new ObservableCollection<Client>();
-                                foreach (var c in Network.Clients)
+
+
+
+                                foreach (var item in Network.Clients)
                                 {
-                                    AllClients.Add(new Client
-                                    {
-                                        TcpClient = c,
-                                        Title = "Monitor " + c.Client.RemoteEndPoint.ToString(),
-                                        ImagePath = ""
-                                    });
+                                        Task.Run(() =>
+                                        {
+                                            var stream = item.GetStream();
+                                            var br = new BinaryReader(stream);
+                                            while (true)
+                                            {
+                                                try
+                                                {
+                                                    br = new BinaryReader(stream);
+                                                    var imageBytes = br.ReadBytes(500000);
+                                                    ImageHelper helper = new ImageHelper();
+                                                    var path = helper.GetImagePath(imageBytes);
+
+                                                    AllClients.Add(new Client
+                                                    {
+                                                        TcpClient = item,
+                                                        Title = "Monitor " + item.Client.RemoteEndPoint.ToString(),
+                                                        ImagePath = path
+                                                    });
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    Console.WriteLine($"{item.Client.RemoteEndPoint}  disconnected");
+                                                }
+                                            }
+                                        });
+
+                                       
                                 }
                             }
                                 catch (Exception)
@@ -58,7 +83,6 @@ namespace OurTeamViewer.ViewModels
                                     AllClients.Clear();
                                 }
                             });
-                        });
                     }
                 });
             });

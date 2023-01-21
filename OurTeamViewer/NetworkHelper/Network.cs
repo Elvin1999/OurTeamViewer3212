@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OurTeamViewer.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -83,51 +84,8 @@ namespace OurTeamViewer.NetworkHelper
             {
                 var client = listener.AcceptTcpClient();
                 Clients.Add(client);
-
-                Task.Run(() =>
-                {
-
-                    var reader = Task.Run(() =>
-                    {
-                        foreach (var item in Clients)
-                        {
-                            Task.Run(() =>
-                            {
-                                var stream = item.GetStream();
-                                br = new BinaryReader(stream);
-                                while (true)
-                                {
-                                    try
-                                    {
-                                        var msg = br.ReadString();
-                                        br = new BinaryReader(stream);
-                                        var bw = new BinaryWriter(stream);
-                                        try
-                                        {
-                                            bw.Write("A");
-                                        }
-                                        catch (Exception)
-                                        {
-                                            Clients.Remove(item);
-                                            break;
-                                        }
-
-                                        //MessageBox.Show($"CLIENT : {client.Client.RemoteEndPoint} : {msg}");
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine($"{item.Client.RemoteEndPoint}  disconnected");
-                                        //Clients.Remove(item);
-                                    }
-                                }
-                            });
-                        }
-
-
-
-                    });
-
-                });
+                Task.Delay(1000);
+                
             }
         }
     }
