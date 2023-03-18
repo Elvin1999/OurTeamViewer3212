@@ -12,7 +12,14 @@ namespace OurTeamViewer.Helpers
 {
     public class ImageHelper
     {
-
+        public ImageHelper()
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Images2");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
         public string GetImagePath(byte[] buffer)
         {
             ImageConverter ic = new ImageConverter();
